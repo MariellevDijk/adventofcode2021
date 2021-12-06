@@ -1,50 +1,50 @@
 <?php
 
 ini_set('memory_limit', "-1");
-ini_set('max_execution_time', "5000");
+ini_set('max_execution_time', "120");
 
-//$states = file_get_contents('fishes2.txt');
-$states = '3,4,3,1,2';
+$states = file_get_contents('inputs/day6.txt');
 
+//$states = '3,4,3,1,2';
 $fishes = explode(',', $states);
-$fishes = array_map(static fn($age) => (int) $age, $fishes);
+$fishes = array_count_values(array_map(static fn($age) => (int) $age, $fishes));
 $day = 0;
 
-//var_dump($fishes);
+$countedFishes = [
+    0 => 0,
+    1 => 0,
+    2 => 0,
+    3 => 0,
+    4 => 0,
+    5 => 0,
+    6 => 0,
+    7 => 0,
+    8 => 0,
+];
 
-function createFish(array &$fishes)
-{
-    return $fishes[] = 8;
+foreach ($fishes as $index => $fish) {
+    $countedFishes[$index] += $fish;
 }
+
+for ($iterator = 0; $iterator < 256; $iterator++) {
+    $countedFishes = advanceDay($countedFishes);
+    echo 'Increasing the day!' . PHP_EOL;
+}
+
+echo 'The total amount of fishes after 80 days: ' . array_sum($countedFishes) . PHP_EOL;
 
 function advanceDay(array $fishes)
 {
-    $newFishes = 0;
-    foreach ($fishes as &$fish) {
-        $newCount = [
+    $newFishes = $fishes[0];
+    $fishes[0] = $fishes[1];
+    $fishes[1] = $fishes[2];
+    $fishes[2] = $fishes[3];
+    $fishes[3] = $fishes[4];
+    $fishes[4] = $fishes[5];
+    $fishes[5] = $fishes[6];
+    $fishes[6] = $fishes[7] + $newFishes;
+    $fishes[7] = $fishes[8];
+    $fishes[8] = $newFishes;
 
-        ];
-//        echo '  ====================================' . PHP_EOL;
-//        echo '  Found a fish! Age: ' . $fish . PHP_EOL;
-        --$fish;
-//        echo '  This fish is now:' . $fish . PHP_EOL;
-        if ($fish === -1) {
-//            echo '      Spawning a new fish' . PHP_EOL;
-            $newFishes++;
-            $fish = 6;
-        }
-//        echo '  ====================================' . PHP_EOL;
-    }
-
-    for ($iterator = 0; $iterator < $newFishes; $iterator++) {
-        createFish($fishes);
-    }
     return $fishes;
 }
-
-for ($iterator = 0; $iterator < 64; $iterator++) {
-    $fishes = advanceDay($fishes);
-//    echo 'Increasing the day!' . PHP_EOL;
-}
-
-var_dump(count($fishes));
