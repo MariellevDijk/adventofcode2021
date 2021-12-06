@@ -21,6 +21,9 @@ function advanceDay(array $fishes)
 {
     $newFishes = 0;
     foreach ($fishes as &$fish) {
+        $newCount = [
+
+        ];
 //        echo '  ====================================' . PHP_EOL;
 //        echo '  Found a fish! Age: ' . $fish . PHP_EOL;
         --$fish;
@@ -44,5 +47,4 @@ for ($iterator = 0; $iterator < 64; $iterator++) {
 //    echo 'Increasing the day!' . PHP_EOL;
 }
 
-//var_dump(count($fishes));
-file_put_contents('fishes3.txt', implode(',', $fishes));
+var_dump(count($fishes));
